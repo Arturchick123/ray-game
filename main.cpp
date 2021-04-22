@@ -56,7 +56,7 @@ class camera
 {
 public :
     /// PLAYER MANUAL
-    const int rays = 200;
+    const int rays = 60;
     float fov = 100;
     float start_fov = 0;
     float delta = fov / rays;
@@ -122,6 +122,9 @@ public :
         float rotation = start_fov;VertexArray line(LineStrip,2);
 
         float Pre_Wall_Height = 0.0f;int M_ax = 0;
+
+        VertexArray line1(LinesStrip,2);
+
         for(int i = 0;i<rays;i++){
 
             line[0].position = Vector2f(player.getPosition().x + half_bound.x,
@@ -129,7 +132,7 @@ public :
 
             cos_a = cos(rotation * RAD);
             sin_a = sin(rotation * RAD);
-            if(M_ax == i){
+
             for(int j = 152;j>0;j--){
 
                 rX = player.getPosition().x + half_bound.x + j * cos_a;
@@ -144,33 +147,15 @@ public :
                     float DIST = (ProjComp / j);wallf.setFillColor(Color::Green);
                     wallf.setTexture(&blocks[5].t);
                     wallf.setTextureRect(IntRect(offsetX,offsetY,1,1));
-                    wallf.setSize(Vector2f((window.getSize().x / rays) * 2,fabs(DIST * ca)));
+                    wallf.setSize(Vector2f((window.getSize().x / rays),fabs(DIST * ca)));
+
+
                     wallf.setPosition(i * (window.getSize().x / rays),WALL_POS + ((wallf.getGlobalBounds().height) * player_y));
                     window.draw(wallf);
                 }
             }
-                M_ax += 2;
-            }
-
             /*
-            for(int j = 125;j>0;j--){
 
-                rX = player.getPosition().x + j * cos_a;
-                rY = player.getPosition().y + j * sin_a;
-                int TEMP = FLOOR[(int)rX / 32][(int)rY / 32];
-
-                if(CollMap[(int)rX / 32][(int)rY / 32] == 1){
-                    int offsetX = (int)rX % (int)blocks[TEMP].s.getLocalBounds().width;
-                    int offsetY = (int)rY % (int)blocks[TEMP].s.getLocalBounds().height;
-
-                    float DIST = (ProjComp / j);
-                    wallf.setTexture(&blocks[TEMP].t);
-                    wallf.setTextureRect(IntRect(offsetX,offsetY,1,1));
-                    wallf.setSize(Vector2f((window.getSize().x / rays),fabs(DIST)));
-                    wallf.setPosition(i * (window.getSize().x / rays),WALL_POS + ((wallf.getGlobalBounds().height) * player_y));
-                    window.draw(wallf);
-                }
-            }
 
             for(int j = 1;j<125;j++){
 
